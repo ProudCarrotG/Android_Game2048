@@ -18,6 +18,8 @@ public class GameView extends GridLayout {
     private Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<Point>();
 
+    private int score = 0;
+
     public GameView(Context context) {
         super(context);
         initGameView();
@@ -39,6 +41,8 @@ public class GameView extends GridLayout {
         setBackgroundColor(0XffBAB09E);
 //        186,176,158
         addCards(getCardWitch(), getCardWitch());
+
+        resetScore();
 
         setOnTouchListener(new OnTouchListener() {
 
@@ -150,6 +154,31 @@ public class GameView extends GridLayout {
         emptyPoints.clear();
     }
 
+
+    public interface OnScoreChangedListener {
+        void onScoreChanged(int score);
+    }
+
+    private OnScoreChangedListener onScoreChangedListener;
+    public void setOnScoreChangeListener(OnScoreChangedListener listener) {
+        this.onScoreChangedListener = listener;
+    }
+
+    private void resetScore(){
+        score = 0;
+        if (onScoreChangedListener != null) {
+            onScoreChangedListener.onScoreChanged(score);
+        }
+    }
+
+    private void updateScore(int x) {
+        // 统计你的分数逻辑代码
+        score += x;
+        if (onScoreChangedListener != null) {
+            onScoreChangedListener.onScoreChanged(score);
+        }
+    }
+
     private void swipeLeft() {
         System.out.println("do left!!!");
 
@@ -167,6 +196,9 @@ public class GameView extends GridLayout {
                             merge = true;
                             x--;
                         } else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
+
+                            updateScore(cardsMap[x][y].getNum());
+
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
                             cardsMap[x1][y].setNum(0);
                             merge = true;
@@ -195,6 +227,9 @@ public class GameView extends GridLayout {
                             merge = true;
                             x++;
                         } else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
+
+                            updateScore(cardsMap[x][y].getNum());
+
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
                             cardsMap[x1][y].setNum(0);
                             merge = true;
@@ -224,6 +259,9 @@ public class GameView extends GridLayout {
 
                             y--;
                         } else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+
+                            updateScore(cardsMap[x][y].getNum());
+
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
                             cardsMap[x][y1].setNum(0);
                             merge = true;
@@ -252,6 +290,9 @@ public class GameView extends GridLayout {
                             merge = true;
                             y++;
                         } else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
+
+                            updateScore(cardsMap[x][y].getNum());
+
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum() * 2);
                             cardsMap[x][y1].setNum(0);
                             merge = true;
@@ -263,6 +304,4 @@ public class GameView extends GridLayout {
         }
         if (merge) addRandomNum();
     }
-
-
 }
