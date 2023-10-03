@@ -131,6 +131,7 @@ public class GameView extends GridLayout {
             }
         }
 
+        resetScore();
         addRandomNum();
         addRandomNum();
 //        addRandomNum();

@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+import java.util.Random;
+
 public class Card extends FrameLayout {
     private int num = 0;
     private TextView label;
@@ -25,6 +28,14 @@ public class Card extends FrameLayout {
         lp.setMargins(30, 30, 0, 0);
         addView(label, lp);
         setNum(0);
+    }
+
+    public int getRandomColorCode() {
+        Random rnd = new Random();
+        int r = rnd.nextInt(256);
+        int g = rnd.nextInt(256);
+        int b = rnd.nextInt(256);
+        return Color.argb(125, r, g, b);
     }
 
     public int getNum() {
@@ -44,17 +55,16 @@ public class Card extends FrameLayout {
     }
 
     private void colorchange() {
-        if (getNum() == 0)
-            label.setBackgroundColor(0x33ffffff);
-        if (getNum() == 2)
-            label.setBackgroundColor(0xffeee4da);
-        if (getNum() == 4)
-            label.setBackgroundColor(0xffeee1c9);
-        if (getNum() == 8)
-            label.setBackgroundColor(0xfff3b27a);
-        if (getNum() == 16)
-            label.setBackgroundColor(0xfff69664);
 
+        System.out.println(Singletion.getMap().get(getNum()));
+
+        Singletion.getMap().put(1, 1);
+
+        if (!Singletion.getMap().containsKey(getNum())) {
+            Singletion.getMap().put(getNum(), getRandomColorCode());
+        }
+        int key = getNum();
+        label.setBackgroundColor( Singletion.getMap().get(key) );
     }
 
     public boolean equals(Card o) {
