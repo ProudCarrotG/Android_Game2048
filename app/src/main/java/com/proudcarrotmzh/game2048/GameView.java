@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.GridLayout;
 
@@ -33,9 +34,9 @@ public class GameView extends GridLayout {
         initGameView();
     }
 
-    private void initGameView() {
-
+    public void initGameView() {
         setColumnCount(4);
+        setRowCount(4);
         setBackgroundColor(0XffBAB09E);
 //        186,176,158
         addCards(getCardWitch(), getCardWitch());
@@ -78,9 +79,8 @@ public class GameView extends GridLayout {
                 return true;
             }
         });
-
-
     }
+
 
     private int getCardWitch() {
         DisplayMetrics displayMetrics;
@@ -94,14 +94,6 @@ public class GameView extends GridLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         startGame();
-//        addCards(cardWidth, cardWidth);
-
-//        startGame.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                startGame();
-//            }
-//        });
     }
 
     private void addCards(int cardWidth, int cardHeight) {
@@ -263,6 +255,4 @@ public class GameView extends GridLayout {
         }
         if (merge) addRandomNum();
     }
-
-
 }
