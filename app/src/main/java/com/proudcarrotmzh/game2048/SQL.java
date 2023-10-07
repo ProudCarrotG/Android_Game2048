@@ -13,7 +13,11 @@ public class SQL extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        String createTableQuery = "CREATE TABLE score ("+
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "time TEXT,"+
+                "score INTEGER);";
+        sqLiteDatabase.execSQL(createTableQuery);
     }
 
     @Override
