@@ -1,6 +1,9 @@
 package com.proudcarrotmzh.game2048;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -12,7 +15,9 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameView extends GridLayout {
@@ -45,6 +50,7 @@ public class GameView extends GridLayout {
         setBackgroundColor(0XffBAB09E);
 //        186,176,158
         addCards(getCardWitch(), getCardWitch());
+
 
         resetScore();
 
@@ -139,6 +145,7 @@ public class GameView extends GridLayout {
 
         addRandomNum();
         addRandomNum();
+
 //        addRandomNum();
 //        addRandomNum();
 //        addRandomNum();
@@ -243,7 +250,35 @@ public class GameView extends GridLayout {
         }
 
         Toast.makeText(getContext().getApplicationContext(), "无法继续操作，游戏结束！可在排行榜中查看排名！", Toast.LENGTH_SHORT).show();
+
+        tableInsert();
+
         return;
+    }
+
+    // 获取当前系统时间的方法
+    public String getCurrentTime() {
+        // 创建一个 Date 对象，它包含当前的日期和时间
+        Date currentDate = new Date();
+
+        // 使用 SimpleDateFormat 格式化日期和时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        // 将当前日期时间格式化为字符串并返回
+        String formattedDate = dateFormat.format(currentDate);
+
+        return formattedDate;
+    }
+
+    private void tableInsert(){
+        SQL dbsqLiteOpenHelper = new SQL(getContext().getApplicationContext(),"scoreTable.db",null,1);
+        SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("time",getCurrentTime());
+        values.put("score",Singletion.getScore());
+
+        db.insert("scoreTable",null,values);
     }
 
     private void swipeRight() {
