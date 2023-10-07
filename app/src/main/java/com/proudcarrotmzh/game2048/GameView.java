@@ -20,7 +20,7 @@ public class GameView extends GridLayout {
     private Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<Point>();
 
-    private int score = 0;
+//    private int score = 0;
     private OnScoreChangedListener onScoreChangedListener;
 
 
@@ -165,17 +165,22 @@ public class GameView extends GridLayout {
     }
 
     private void resetScore() {
-        score = 0;
+//        score = 0;
+        Singletion.setScore(0);
+
         if (onScoreChangedListener != null) {
-            onScoreChangedListener.onScoreChanged(score);
+//            onScoreChangedListener.onScoreChanged(score);
+            onScoreChangedListener.onScoreChanged(Singletion.getScore());
         }
     }
 
     private void updateScore(int x) {
         // 统计你的分数逻辑代码
-        score += x;
+//        score += x;
+        Singletion.setScore(Singletion.getScore()+x);
         if (onScoreChangedListener != null) {
-            onScoreChangedListener.onScoreChanged(score);
+//            onScoreChangedListener.onScoreChanged(score);
+            onScoreChangedListener.onScoreChanged(Singletion.getScore());
         }
     }
 

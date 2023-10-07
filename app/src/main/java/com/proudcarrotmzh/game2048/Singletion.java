@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 public class Singletion {
 
+    private static int score;
     private static HashMap<Integer, Integer> map = new HashMap<Integer, Integer>() {{
         put(0, 0x33ffffff);
         put(2, 0xffeee4da);
@@ -16,5 +17,13 @@ public class Singletion {
 
     public static HashMap<Integer,Integer> getMap(){
         return map;
+    }
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void setScore(int score) {
+        Singletion.score = score;
     }
 }
