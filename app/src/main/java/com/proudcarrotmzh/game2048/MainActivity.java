@@ -2,7 +2,9 @@ package com.proudcarrotmzh.game2048;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,11 +37,30 @@ public class MainActivity extends AppCompatActivity {
                 goToActivityCharts(view);
             }
         });
+
+        Button fin = (Button) findViewById(R.id.fin);
+        fin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tableInsert();
+            }
+        });
     }
 
     public void goToActivityCharts(View view){
         Intent intent = new Intent(this,ChartsActivity.class);
         startActivity(intent);
+    }
+
+    public void tableInsert(){
+        SQL dbsqLiteOpenHelper = new SQL(getApplicationContext(),"scoreTable.db",null,1);
+        SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("time",Singletion.getCurrentTime());
+        values.put("score",Singletion.getScore());
+
+        db.insert("scoreTable",null,values);
     }
 
 }

@@ -39,10 +39,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/fin"
+            android:text="不玩了\n直接统计分数"></Button>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:id="@+id/charts"
             android:text="排行榜"></Button>
@@ -50,9 +56,9 @@
         <Button
             android:id="@+id/startGame"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="start game"></Button>
+            android:text="new game"></Button>
 
     </LinearLayout>
 

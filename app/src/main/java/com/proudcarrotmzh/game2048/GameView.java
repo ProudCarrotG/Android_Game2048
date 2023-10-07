@@ -257,25 +257,25 @@ public class GameView extends GridLayout {
     }
 
     // 获取当前系统时间的方法
-    public String getCurrentTime() {
-        // 创建一个 Date 对象，它包含当前的日期和时间
-        Date currentDate = new Date();
+//    public String getCurrentTime() {
+//        // 创建一个 Date 对象，它包含当前的日期和时间
+//        Date currentDate = new Date();
+//
+//        // 使用 SimpleDateFormat 格式化日期和时间
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        // 将当前日期时间格式化为字符串并返回
+//        String formattedDate = dateFormat.format(currentDate);
+//
+//        return formattedDate;
+//    }
 
-        // 使用 SimpleDateFormat 格式化日期和时间
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        // 将当前日期时间格式化为字符串并返回
-        String formattedDate = dateFormat.format(currentDate);
-
-        return formattedDate;
-    }
-
-    private void tableInsert(){
+    public void tableInsert(){
         SQL dbsqLiteOpenHelper = new SQL(getContext().getApplicationContext(),"scoreTable.db",null,1);
         SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put("time",getCurrentTime());
+        values.put("time",Singletion.getCurrentTime());
         values.put("score",Singletion.getScore());
 
         db.insert("scoreTable",null,values);
