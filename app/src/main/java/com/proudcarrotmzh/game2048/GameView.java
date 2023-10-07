@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,8 @@ public class GameView extends GridLayout {
     private List<Point> emptyPoints = new ArrayList<Point>();
 
     private int score = 0;
+    private OnScoreChangedListener onScoreChangedListener;
+
 
     public GameView(Context context) {
         super(context);
@@ -132,6 +136,7 @@ public class GameView extends GridLayout {
         }
 
         resetScore();
+
         addRandomNum();
         addRandomNum();
 //        addRandomNum();
@@ -155,17 +160,11 @@ public class GameView extends GridLayout {
         emptyPoints.clear();
     }
 
-
-    public interface OnScoreChangedListener {
-        void onScoreChanged(int score);
-    }
-
-    private OnScoreChangedListener onScoreChangedListener;
     public void setOnScoreChangeListener(OnScoreChangedListener listener) {
         this.onScoreChangedListener = listener;
     }
 
-    private void resetScore(){
+    private void resetScore() {
         score = 0;
         if (onScoreChangedListener != null) {
             onScoreChangedListener.onScoreChanged(score);
@@ -211,6 +210,35 @@ public class GameView extends GridLayout {
         }
 
         if (merge) addRandomNum();
+        checkGameState();
+
+    }
+
+    private void checkGameState() {
+
+        int[] dx = {1, 0, -1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        boolean num = false, near = false;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (cardsMap[i][j].getNum() == 0)
+                    return;
+
+                for (int k = 0; k < 4; k++) {
+                    int nx = i + dx[k];
+                    int ny = j + dy[k];
+                    if (0 <= nx && nx < 4 && 0 <= ny && ny < 4) {
+                        if (cardsMap[i][j].equals(cardsMap[nx][ny])) {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        Toast.makeText(getContext().getApplicationContext(), "无法继续操作，游戏结束！可在排行榜中查看排名！", Toast.LENGTH_SHORT).show();
+        return;
     }
 
     private void swipeRight() {
@@ -241,6 +269,7 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
     }
 
     private void swipeUp() {
@@ -274,6 +303,8 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
+
     }
 
     private void swipeDown() {
@@ -304,5 +335,11 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
+
+    }
+
+    public interface OnScoreChangedListener {
+        void onScoreChanged(int score);
     }
 }

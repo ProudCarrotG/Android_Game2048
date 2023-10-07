@@ -1,5 +1,7 @@
 package com.proudcarrotmzh.game2048;
 
+import android.widget.TextView;
+
 import java.util.HashMap;
 
 public class Singletion {
@@ -15,6 +17,4 @@ public class Singletion {
     public static HashMap<Integer,Integer> getMap(){
         return map;
     }
-
-
 }

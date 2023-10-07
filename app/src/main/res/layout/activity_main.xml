@@ -29,7 +29,11 @@
         android:id="@+id/gameview"
         android:layout_width="fill_parent"
         android:layout_height="511dp"
-        android:layout_weight="1"></com.proudcarrotmzh.game2048.GameView>
+        android:layout_weight="1">
+
+
+    </com.proudcarrotmzh.game2048.GameView>
+
 
     <Button
         android:id="@+id/startGame"
