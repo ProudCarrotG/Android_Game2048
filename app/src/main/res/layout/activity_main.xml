@@ -26,14 +26,42 @@
 
     <com.proudcarrotmzh.game2048.GameView
         android:id="@+id/gameview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/startGame"
+        android:layout_width="fill_parent"
+        android:layout_height="511dp"
+        android:layout_weight="1">
+
+
+    </com.proudcarrotmzh.game2048.GameView>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="start game"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/fin"
+            android:text="不玩了\n直接统计分数"></Button>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/charts"
+            android:text="排行榜"></Button>
+
+        <Button
+            android:id="@+id/startGame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="new game"></Button>
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

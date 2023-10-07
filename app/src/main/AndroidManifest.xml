@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Game2048"
         tools:targetApi="31">
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true"></service>
+
+
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/charts" />
+
 
         <activity
             android:name=".MainActivity"
@@ -27,6 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ChartsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

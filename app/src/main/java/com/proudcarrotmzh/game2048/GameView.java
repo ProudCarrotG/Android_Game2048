@@ -1,6 +1,9 @@
 package com.proudcarrotmzh.game2048;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -10,8 +13,12 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameView extends GridLayout {
@@ -19,7 +26,9 @@ public class GameView extends GridLayout {
     private Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<Point>();
 
-    private int score = 0;
+//    private int score = 0;
+    private OnScoreChangedListener onScoreChangedListener;
+
 
     public GameView(Context context) {
         super(context);
@@ -42,6 +51,7 @@ public class GameView extends GridLayout {
         setBackgroundColor(0XffBAB09E);
 //        186,176,158
         addCards(getCardWitch(), getCardWitch());
+
 
         resetScore();
 
@@ -124,8 +134,10 @@ public class GameView extends GridLayout {
         }
 
         resetScore();
+
         addRandomNum();
         addRandomNum();
+
 //        addRandomNum();
 //        addRandomNum();
 //        addRandomNum();
@@ -147,28 +159,27 @@ public class GameView extends GridLayout {
         emptyPoints.clear();
     }
 
-
-    public interface OnScoreChangedListener {
-        void onScoreChanged(int score);
-    }
-
-    private OnScoreChangedListener onScoreChangedListener;
     public void setOnScoreChangeListener(OnScoreChangedListener listener) {
         this.onScoreChangedListener = listener;
     }
 
-    private void resetScore(){
-        score = 0;
+    private void resetScore() {
+//        score = 0;
+        Singletion.setScore(0);
+
         if (onScoreChangedListener != null) {
-            onScoreChangedListener.onScoreChanged(score);
+//            onScoreChangedListener.onScoreChanged(score);
+            onScoreChangedListener.onScoreChanged(Singletion.getScore());
         }
     }
 
     private void updateScore(int x) {
         // 统计你的分数逻辑代码
-        score += x;
+//        score += x;
+        Singletion.setScore(Singletion.getScore()+x);
         if (onScoreChangedListener != null) {
-            onScoreChangedListener.onScoreChanged(score);
+//            onScoreChangedListener.onScoreChanged(score);
+            onScoreChangedListener.onScoreChanged(Singletion.getScore());
         }
     }
 
@@ -203,6 +214,63 @@ public class GameView extends GridLayout {
         }
 
         if (merge) addRandomNum();
+        checkGameState();
+
+    }
+
+    private void checkGameState() {
+
+        int[] dx = {1, 0, -1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        boolean num = false, near = false;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (cardsMap[i][j].getNum() == 0)
+                    return;
+
+                for (int k = 0; k < 4; k++) {
+                    int nx = i + dx[k];
+                    int ny = j + dy[k];
+                    if (0 <= nx && nx < 4 && 0 <= ny && ny < 4) {
+                        if (cardsMap[i][j].equals(cardsMap[nx][ny])) {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        Toast.makeText(getContext().getApplicationContext(), "无法继续操作，游戏结束！可在排行榜中查看排名！", Toast.LENGTH_SHORT).show();
+
+        tableInsert();
+
+        return;
+    }
+
+    // 获取当前系统时间的方法
+//    public String getCurrentTime() {
+//        // 创建一个 Date 对象，它包含当前的日期和时间
+//        Date currentDate = new Date();
+//
+//        // 使用 SimpleDateFormat 格式化日期和时间
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        // 将当前日期时间格式化为字符串并返回
+//        String formattedDate = dateFormat.format(currentDate);
+//
+//        return formattedDate;
+//    }
+
+    public void tableInsert(){
+        SQL dbsqLiteOpenHelper = new SQL(getContext().getApplicationContext(),"scoreTable.db",null,1);
+        SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("time",Singletion.getCurrentTime());
+        values.put("score",Singletion.getScore());
+
+        db.insert("scoreTable",null,values);
     }
 
     private void swipeRight() {
@@ -233,6 +301,7 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
     }
 
     private void swipeUp() {
@@ -266,6 +335,8 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
+
     }
 
     private void swipeDown() {
@@ -296,5 +367,11 @@ public class GameView extends GridLayout {
             }
         }
         if (merge) addRandomNum();
+        checkGameState();
+
+    }
+
+    public interface OnScoreChangedListener {
+        void onScoreChanged(int score);
     }
 }
