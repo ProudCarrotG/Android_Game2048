@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-
 import java.util.HashMap;
 import java.util.Random;
 
@@ -55,6 +54,7 @@ public class Card extends FrameLayout {
     }
 
     private void colorchange() {
+// <<<<<<< v1.2
 
         System.out.println(Singletion.getMap().get(getNum()));
 
@@ -65,6 +65,19 @@ public class Card extends FrameLayout {
         }
         int key = getNum();
         label.setBackgroundColor( Singletion.getMap().get(key) );
+// =======
+//         if (getNum() == 0)
+//             label.setBackgroundColor(0x33ffffff);
+//         if (getNum() == 2)
+//             label.setBackgroundColor(0xffeee4da);
+//         if (getNum() == 4)
+//             label.setBackgroundColor(0xffeee1c9);
+//         if (getNum() == 8)
+//             label.setBackgroundColor(0xfff3b27a);
+//         if (getNum() == 16)
+//             label.setBackgroundColor(0xfff69664);
+
+// >>>>>>> master
     }
 
     public boolean equals(Card o) {
