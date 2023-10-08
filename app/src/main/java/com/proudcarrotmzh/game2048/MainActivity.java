@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -17,10 +18,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView tvScore = findViewById(R.id.tvScore);
 
+//        游戏开始
         GameView gm = (GameView) findViewById(R.id.gameview);
         Button btStartGame = (Button) findViewById(R.id.startGame);
         btStartGame.setOnClickListener(view -> gm.startGame());
 
+//        游戏分数更新
         GameView gv = findViewById(R.id.gameview);
         gv.setOnScoreChangeListener(new GameView.OnScoreChangedListener() {
             @Override
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        排行榜
         Button charts = (Button) findViewById(R.id.charts);
         charts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        手动记录分数
         Button fin = (Button) findViewById(R.id.fin);
         fin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,11 +52,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    activity跳转
     public void goToActivityCharts(View view){
         Intent intent = new Intent(this,ChartsActivity.class);
         startActivity(intent);
     }
 
+//    数据库数据插入
     public void tableInsert(){
         SQL dbsqLiteOpenHelper = new SQL(getApplicationContext(),"scoreTable.db",null,1);
         SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
@@ -61,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         values.put("score",Singletion.getScore());
 
         db.insert("scoreTable",null,values);
+
+        Toast.makeText(getApplicationContext(), "当前分数已保存", Toast.LENGTH_SHORT).show();
+
     }
 
 }

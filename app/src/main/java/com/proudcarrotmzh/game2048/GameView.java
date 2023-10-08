@@ -22,6 +22,7 @@ import java.util.List;
 
 public class GameView extends GridLayout {
     Button startGame = findViewById(R.id.startGame);
+    private boolean recod = false;
     private Card[][] cardsMap = new Card[4][4];
     private List<Point> emptyPoints = new ArrayList<Point>();
 
@@ -179,6 +180,8 @@ public class GameView extends GridLayout {
 //            onScoreChangedListener.onScoreChanged(score);
             onScoreChangedListener.onScoreChanged(Singletion.getScore());
         }
+
+        recod = false;
     }
 
     private void updateScore(int x) {
@@ -271,6 +274,9 @@ public class GameView extends GridLayout {
 //    }
 
     public void tableInsert(){
+        if(recod == true)
+            return;
+
         SQL dbsqLiteOpenHelper = new SQL(getContext().getApplicationContext(),"scoreTable.db",null,1);
         SQLiteDatabase db = dbsqLiteOpenHelper.getWritableDatabase();
 
@@ -279,6 +285,8 @@ public class GameView extends GridLayout {
         values.put("score",Singletion.getScore());
 
         db.insert("scoreTable",null,values);
+
+        recod = true;
     }
 
     private void swipeRight() {

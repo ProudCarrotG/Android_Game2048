@@ -25,7 +25,6 @@ public class ChartsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_charts);
 
         init();
-
     }
 
     private void init() {
